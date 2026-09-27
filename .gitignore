@@ -1,0 +1,24 @@
+# build output
+x64/
+Win32/
+Debug/
+Release/
+*.exe
+*.pdb
+*.ipdb
+*.iobj
+*.obj
+*.tlog
+*.log
+*.ilk
+*.meta
+
+# local configs (beside exe, machine-specific)
+configs/
+*.config
+
+# visual studio local state
+.vs/
+*.vcxproj.user
+*.suo
+*.user
