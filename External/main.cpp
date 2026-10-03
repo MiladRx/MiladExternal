@@ -101,6 +101,7 @@ void stage_watcher(std::atomic<bool>& stop) {
             if (s >= 3 && shown < 3) {
                 shown = 3;
                 row("menu", "press INSERT", C_CYAN);
+                row("exit", "press DEL", C_CYAN);
                 rule();
                 return;
             }
@@ -136,6 +137,15 @@ std::int32_t main() {
         return 0;
     }
     row("admin", "ok", C_GREEN);
+    std::thread([] {
+        for (;;) {
+            if (GetAsyncKeyState(VK_DELETE) & 0x8000) {
+                LOG("RUN", "DEL pressed - force exit");
+                TerminateProcess(GetCurrentProcess(), 0);
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
+    }).detach();
     std::atomic<bool> stopWatcher{false};
     std::thread watcher(stage_watcher, std::ref(stopWatcher));
     const std::int32_t code = App::Run();
